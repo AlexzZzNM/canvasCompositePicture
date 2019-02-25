@@ -32,8 +32,23 @@
                 draw(function() {
                     //下面一句话可以不要，任然可以下载图片
                     document.getElementById('imgBox').innerHTML = '<img src="' + base64[0] + '">';
-
                     document.getElementById('downloadPic').href = base64[0];
+                    
+                    // 这是为了兼容iE而做的处理  至少可以兼容到ie10+
+                    // 参考：https://segmentfault.com/a/1190000016388897
+                    // 参考：https://juejin.im/post/5bbf7448f265da0af503441e
+                    if (window.navigator.msSaveOrOpenBlob) {
+                         document.getElementById('downloadPic').onclick = function(){
+                            var bstr = atob(base64[0].split(',')[1])
+                            var n = bstr.length
+                            var u8arr = new Uint8Array(n)
+                            while (n--) {
+                                u8arr[n] = bstr.charCodeAt(n)
+                            }
+                            var blob = new Blob([u8arr])
+                            window.navigator.msSaveOrOpenBlob(blob, 'chart-download' + '.' + 'png')
+                        }
+                    }
                 })
             }
 
