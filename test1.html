@@ -95,6 +95,79 @@
                         }
                     } else {
                         // 先画图片  再画文字   文字才不会被图片挡住
+                        
+                        // cnavas 画圆角按钮
+                        // function drawButton( ){
+                            // function drawButton(ctx,color,x,y,width,height,radius,text){//x/y:按钮起始点,width/height按钮宽高,radius弧度
+                            //     //分为4条直线4个圆角绘制
+                            //     var grd=ctx.createLinearGradient(x,0,x+200,40);
+                            //     grd.addColorStop(0,"#00CBFF");
+                            //     grd.addColorStop(1,"#4658FF");
+                            //     ctx.beginPath();
+                            //     ctx.fillStyle = Boolean(color) ||grd;
+                            //     ctx.moveTo(x+radius,y);
+                            //     ctx.lineTo(x+width-radius,y);
+                            //     ctx.arc(x+width-radius,y+radius,radius,Math.PI*3/2, Math.PI*2);
+                            //     ctx.lineTo(x+width,y+height-radius);
+                            //     ctx.arc(x+width-radius,y+height-radius,radius,Math.PI,Math.PI/2);
+                            //     ctx.lineTo(x+radius,y+height);
+                            //     ctx.arc(x+radius,y+height-radius,radius,Math.PI/2,Math.PI);
+                            //     ctx.lineTo(x,y+radius);
+                            //     ctx.arc(x+radius,y+radius,radius,Math.PI,Math.PI*3/2);
+                            //     ctx.fill();
+                            //     ctx.closePath();
+                            //     ctx.beginPath();
+                            //     ctx.fillStyle = "#fff";
+                            //     ctx.font = "bold 28px '微软雅黑'";
+                            //     ctx.textAlign = "center";
+                            //     ctx.textBaseline = "middle";
+                            //     ctx.fillText(text,x+width/2,y+height/2);
+                            // }
+                            // if(arr.length>0){
+                            //   drawButton(ctx,'',176,565,200,46,23,arr[0]); // 第一个按钮
+                            //   drawButton(ctx,'',395,565,200,46,23,arr[1]); // 第二个按钮
+                            //   drawButton(ctx,'',176,630,200,46,23,arr[2]); // 第三个按钮
+                            // }
+                        // }
+            
+                        
+                        
+                        //canvas绘文字
+                        function drawText(tetx,left,top,fontSize,fontColor,fontWeight,fontLineHeight,textAlign,stringWidth){
+                            // tetx:需要渲染的文本
+                            // left：当前文本距离canvas左边的距离
+                            // top：当前文本距离canvas顶部的距离
+                            // fontSize：字体大小；
+                            // fontColor:字体颜色；
+                            // fontWeight：字体粗细
+                            // fontLineHeight：字体行高
+                            // tetxAlign:字体在水平方向对齐方式
+                            // stringWidth：每一段文本的最大宽度
+                            // 
+                            var decribe = tetx;
+                            var initHeight=top;//绘制字体距离canvas顶部初始的高度
+                            var lineWidth = 0;
+                            var lastSubStrIndex= 0; //每次开始截取的字符串的索引
+                            ctx.fillStyle = fontColor;
+                            ctx.font = ''+fontWeight+' '+ fontSize + ' ' +'\''+'微软雅黑'+'\'';
+                            ctx.textAlign = textAlign || "left";
+                            ctx.textAlign.indexOf('center')>-1 && (left += stringWidth/2);
+                            for(let i=0;i<decribe.length;i++){
+                                lineWidth+=ctx.measureText(decribe[i]).width;
+                                if(lineWidth>stringWidth){
+                                    ctx.fillText(decribe.substring(lastSubStrIndex,i),left,initHeight);//绘制截取部分
+                                    initHeight+=fontLineHeight;
+                                    lineWidth=0;
+                                    lastSubStrIndex=i;
+                                }
+                                if(i==decribe.length-1){//绘制剩余部分
+                                    ctx.fillText(decribe.substring(lastSubStrIndex,i+1),left,initHeight);
+                                }
+                            }
+                        }
+
+
+                        
                         if(mychar.length>17){
                             var char1 = mychar.slice(0,15),
                                 char2 = mychar.slice(15);
