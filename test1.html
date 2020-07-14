@@ -70,6 +70,23 @@
                 ctx.rect(0, 0, c.width, c.height);
                 ctx.fillStyle = '#fff';
                 ctx.fill();
+                
+                
+                
+                
+                // 封装了一个img画圆的方法
+                    function circleImg(ctx, img, x, y, r) {
+                        ctx.save();
+                        ctx.beginPath();  // 这个必须要有，否者图像任然为矩形
+                        var d = 2 * r;
+                        var cx = x + r;
+                        var cy = y + r;
+                        ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+                        ctx.clip();
+                        ctx.drawImage(img, x, y, d, d);
+                        ctx.restore();
+                    }
+                
                 // 给canvas绘制文字
                 function drawChar(char,pos){
                     ctx.textAlign='center';   // 文字居中
