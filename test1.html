@@ -81,7 +81,7 @@
                 function drawing(n) {
                     if(n < len) {
                         var img = new Image;
-                        img.crossOrigin = 'Anonymous'; //解决跨域
+                        img.crossOrigin = 'Anonymous'; //解决跨域。这一行写上反而渲染不出来跨域的图片。
 
                         img.onload = function() {
                             if(n == 1) {
